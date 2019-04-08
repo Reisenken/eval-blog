@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}{% endblock %}</title>
+        <link rel="stylesheet" href="https://bootswatch.com/4/flatly/bootstrap.min.css">
+        <link rel="stylesheet" href="../../css.css">
+        {% block stylesheets %}{% endblock %}
+    </head>
+    <body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand logo" href="/">BBlog</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse header" id="navbarColor02">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{ path('blog') }}"> Articles <span class="sr-only">(current)</span></a>
+                    </li>
+                    {% if app.user %}
+                    {% if app.user.role == 'ROLE_ADMIN' %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('create') }}">Créer un article</a>
+                        </li>
+                        {% endif %}
+                    {% endif %}
+                    {% if not app.user %}
+                        <li class="nav-item">
+                            <a class="nav-link" href=" {{ path('login') }}">Se connecter</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href=" {{ path('register') }}">S'inscrire</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href=" {{ path('logout') }}">Se déconnecter</a>
+                        </li>
+                        {% if app.user.role == "ROLE_ADMIN" %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Administrer</a>
+                        </li>
+                        {% endif %}
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <section class="container margin_footer">
+        {% block body %}{% endblock %}
+    </section>
+
+    <footer>
+        <div id="footer">
+            <p> BBlog Compagny &copy;</p>
+        </div>
+    </footer>
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>

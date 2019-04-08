@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+{% form_theme formArticle 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+
+    <h1>
+        {% if editMode %}
+            Modifier
+        {% else %}
+            Créer
+        {% endif %}
+    un nouvel article</h1>
+
+    {{ form_start(formArticle) }}
+
+    <div class="form-group">
+        <label for="">Titre de l'article : </label>
+        {{ form_widget(formArticle.title) }}
+    </div>
+    <div class="form-group">
+        <label for="">Contenu de l'article : </label>
+        {{ form_widget(formArticle.article) }}
+    </div>
+    <div class="form-group">
+        <label for="">URL de l'image d'illustration : </label>
+        {{ form_widget(formArticle.illustrate) }}
+    </div>
+    <button class="btn btn-success" type="submit">
+        {% if editMode %}
+            Modifier
+        {% else %}
+            Créer
+        {% endif %}
+    </button>
+    {{ form_end(formArticle) }}
+
+{% endblock %}

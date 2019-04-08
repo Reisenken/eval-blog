@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes Articles{% endblock %}
+
+
+{% block body %}
+
+    {% for article in articles %}
+        <article class="articles row">
+            <a class="title" href=" {{ path('article' , {'id': article.id}) }} ">
+                <img src="{{ article.illustrate }}" alt="{{ article.title }}">
+                <h4> {{ article.title }} </h4>
+            </a>
+        </article> <hr>
+    {% endfor %}
+
+{% endblock %}

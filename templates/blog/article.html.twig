@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+
+{%  block body %}
+
+    <article class="article row">
+        <div id="title_article">
+            <img src="{{ article.illustrate }}" alt="{{ article.title }}">
+            <h3> {{ article.title }} </h3>
+        </div>
+        <div id="time_article">
+            <span>Le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }}</span>
+        </div>
+        <br>
+        <div id="content_article">
+            <p> {{ article.article }} </p>
+        </div>
+        {% if app.user %}
+            {% if app.user.role == 'ROLE_ADMIN' %}
+                <a href="{{ path('article' , {'id': article.id}) }}" class="btn btn-primary bouton_mod"> Modifier cet article </a>
+                <a href="{{ path('deleteArticle' , {'id': article.id}) }}" class="btn btn-danger bouton_mod"> Supprimer cet article </a>
+            {% endif %}
+        {% endif %}
+    </article>
+
+    <article id="comments">
+        <h3> Commentaires :</h3>
+        {% for comment in article.comments %}
+            <div class="row comment">
+                <div class="comment_login"> Par : <span>{{ comment.login }}</span></div>
+                <div class="date"> le {{ comment.createdAt | date('d/m/Y')}} à {{ comment.createdAt | date('H:i') }}</div>
+            </div>
+            <div class="comment-comment"> {{ comment.text }} </div>
+                {% if app.user %}
+                    {% if app.user.role == 'ROLE_ADMIN' %}
+                        <a href="{{ path('deleteCom' , {'id': comment.id}) }}" class="btn btn-danger suppress"> Supprimer ce commentaire </a>
+                    {% endif %}
+                {% endif %}
+            <hr>
+        {% endfor %}
+
+
+        {% if app.user %}
+        <h3>Commenter :</h3>
+        {{ form_start(commentForm) }}
+        {{ form_row(commentForm.login, {
+            'attr': {
+                'placeholder': "login"
+            }
+        } )}}
+        {{ form_row(commentForm.text, {
+            'attr': {
+                'placeholder': "Votre commentaire"
+            }
+        } )}}
+            <button class="btn btn-success" type="submit"> Postez votre commentaire </button>
+        {{ form_end(commentForm) }}
+        {% endif %}
+    </article>
+{% endblock %}
